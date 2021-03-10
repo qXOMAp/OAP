@@ -1,3 +1,9 @@
 [submodule "by_Abramov"]
 	path = by_Abramov
 	url = https://github.com/God-Emperor-of-Mankind/ImperiumOfMankind
+[submodule "ot_Falko"]
+	path = ot_Falko
+	url = https://github.com/LeshkaFalko/ProjectFalcon
+[submodule "about_Vdovina"]
+	path = about_Vdovina
+	url = https://github.com/Alisa11110000/oap_progi
