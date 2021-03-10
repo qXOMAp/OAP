@@ -1,5 +1,3 @@
-# This is a sample Python script.
-
 def print_hi(name):
     print(f'Привет, {name}')
 
