@@ -2,7 +2,7 @@ print('Waaagh!')
 
 # Жёсткости элементов
 EF1 = 6
-EF2 = 7
+EF2 = 4
 EF3 = 8
 C1 = 1
 C2 = 2
@@ -37,7 +37,7 @@ K = [[K1[0][0], K1[0][1], 0, 0, 0, 0],
      [0, 0, K5[1][0], 0, 0, K5[1][1]]]
 
 print('Waaagh!')
-print('K', K)
+print('Матрица жесткости', K)
 
 # Граничные условия
 K[0][0] = 1
@@ -53,7 +53,7 @@ for i in range(0, 5):
     K[i][5] = 0
 K[5][5] = 1
 print('Waaagh!')
-print(K)
+print('Граничные условия', K)
 
 # Вектор внешних узловых увилий:
 f = [0, F1, 0, F2, 0, 0]
@@ -62,7 +62,7 @@ from module import inverse_matrix
 
 invK = inverse_matrix(K)
 print('Waaagh!')
-print(invK)
+print('обратная', invK)
 
 q = []
 for i in range(len(f)):
@@ -71,6 +71,121 @@ for i in range(len(f)):
         u += invK[i][j] * f[j]
     q.append(u)
 print('Waaagh!')
-print(q)
+print('u', q)
 
-#Апроксимации
+
+# Апроксимации
+def scalar_product(a, b):
+    return a[0] * b[0] + a[1] * b[1]
+
+
+def approximation(x, u, l):
+    N1 = 1 - x / l
+    N2 = x / l
+    N = [N1, N2]
+    return scalar_product(N, u)
+
+
+print('Waaagh!')
+
+print("Перемещения для первого элемента")
+print("0", approximation(0, [q[0], q[1]], 1))
+print("0.25", approximation(0.25, [q[0], q[1]], 1))
+print("0.5", approximation(0.5, [q[0], q[1]], 1))
+print("0.75", approximation(0.75, [q[0], q[1]], 1))
+print("1", approximation(1, [q[0], q[1]], 1))
+
+print('Waaagh!')
+
+print("Перемещения для фторого элемента")
+print("0", approximation(0, [q[1], q[2]], 1))
+print("0.25", approximation(0.25, [q[1], q[2]], 1))
+print("0.5", approximation(0.5, [q[1], q[2]], 1))
+print("0.75", approximation(0.75, [q[1], q[2]], 1))
+print("1", approximation(1, [q[1], q[2]], 1))
+
+print('Waaagh!')
+
+print("Перемещения для третьего элемента")
+print("0", approximation(0, [q[2], q[3]], 1))
+print("0.25", approximation(0.25, [q[2], q[3]], 1))
+print("0.5", approximation(0.5, [q[2], q[3]], 1))
+print("0.75", approximation(0.75, [q[2], q[3]], 1))
+print("1", approximation(1, [q[2], q[3]], 1))
+
+print('Waaagh!')
+
+print("Перемешения для перфой пружины")
+print("0", approximation(0, [q[4], q[1]], 1))
+print("0.25", approximation(0.25, [q[4], q[1]], 1))
+print("0.5", approximation(0.5, [q[4], q[1]], 1))
+print("0.75", approximation(0.75, [q[4], q[1]], 1))
+print("1", approximation(1, [q[4], q[1]], 1))
+
+print('Waaagh!')
+
+print("Перемешения для фторой пружины")
+print("0", approximation(0, [q[2], q[5]], 1))
+print("0.25", approximation(0.25, [q[2], q[5]], 1))
+print("0.5", approximation(0.5, [q[2], q[5]], 1))
+print("0.75", approximation(0.75, [q[2], q[5]], 1))
+print("1", approximation(1, [q[2], q[5]], 1))
+
+print('Waaagh!')
+
+
+# Внутренние усилия в стержне:
+# N = EFu'
+
+
+def force_approximation(x, u, l, EF):
+    N1prime = -1 / l
+    N2prime = 1 / l
+    N = [N1prime, N2prime]
+    return scalar_product(N, u) * EF
+
+
+print("Усилия для первого элемента")
+print("0", force_approximation(0, [q[0], q[1]], 1, EF1))
+print("0.25", force_approximation(0.25, [q[0], q[1]], 1, EF1))
+print("0.5", force_approximation(0.5, [q[0], q[1]], 1, EF1))
+print("0.75", force_approximation(0.75, [q[0], q[1]], 1, EF1))
+print("1", force_approximation(1, [q[0], q[1]], 1, EF1))
+
+print('Waaagh!')
+
+print("Усилия для второго элемента")
+print("0", force_approximation(0, [q[1], q[2]], 1, EF2))
+print("0.25", force_approximation(0.25, [q[1], q[2]], 1, EF2))
+print("0.5", force_approximation(0.5, [q[1], q[2]], 1, EF2))
+print("0.75", force_approximation(0.75, [q[1], q[2]], 1, EF2))
+print("1", force_approximation(1, [q[1], q[2]], 1, EF2))
+
+print('Waaagh!')
+
+print("Усилия для третьего элемента")
+print("0", force_approximation(0, [q[2], q[3]], 1, EF3))
+print("0.25", force_approximation(0.25, [q[2], q[3]], 1, EF3))
+print("0.5", force_approximation(0.5, [q[2], q[3]], 1, EF3))
+print("0.75", force_approximation(0.75, [q[2], q[3]], 1, EF3))
+print("1", force_approximation(1, [q[2], q[3]], 1, EF3))
+
+print('Waaagh!')
+
+print("Усилия для первой пружины")
+print("0", force_approximation(0, [q[4], q[1]], 1, C1))
+print("0.25", force_approximation(0.25, [q[4], q[1]], 1, C1))
+print("0.5", force_approximation(0.5, [q[4], q[1]], 1, C1))
+print("0.75", force_approximation(0.75, [q[4], q[1]], 1, C1))
+print("1", force_approximation(1, [q[4], q[1]], 1, C1))
+
+print('Waaagh!')
+
+print("Усилия для фторой пружины")
+print("0", force_approximation(0, [q[2], q[5]], 1, C2))
+print("0.25", force_approximation(0.25, [q[2], q[5]], 1, C2))
+print("0.5", force_approximation(0.5, [q[2], q[5]], 1, C2))
+print("0.75", force_approximation(0.75, [q[2], q[5]], 1, C2))
+print("1", force_approximation(1, [q[2], q[5]], 1, C2))
+
+print('Waaagh!')
